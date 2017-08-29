@@ -16,6 +16,9 @@ import com.lotr.demo.userlist.R;
 import com.lotr.demo.userlist.model.User;
 import com.lotr.demo.userlist.ui.CommonFragment;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -140,11 +143,13 @@ public class UserEditFragment extends CommonFragment implements IUserEditView{
 
     private boolean validateEmail() {
         String email = etEmail.getText().toString();
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
         if (TextUtils.isEmpty(email)) {
             ilEmail.setErrorEnabled(true);
             ilEmail.setError(getString(R.string.error_empty_field));
             return false;
-        } if (!email.contains("@")) {
+        } if (!matcher.matches()) {
             ilEmail.setErrorEnabled(true);
             ilEmail.setError(getString(R.string.error_format));
             return false;
