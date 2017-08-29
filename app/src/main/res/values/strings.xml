@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">DemoUsersList</string>
+
+    <!-- Titles -->
+    <string name="title.users.list">Пользователи</string>
+    <string name="title.user.edit">Обновить</string>
+    <string name="title.user.add">Создать</string>
+
+    <!-- Hints -->
+    <string name="hint.first.name">Имя</string>
+    <string name="hint_last.name">Фамилия</string>
+    <string name="hint.email">Email</string>
+
+    <!-- Errors -->
+    <string name="error.empty.field">Это поле должно быть заполнено</string>
+    <string name="error.format">Неверный формат</string>
+
+    <!-- Alert messages -->
+    <string name="msg.user.create">Новый пользователь создан</string>
+    <string name="msg.user.update">Данные пользователя обновлены</string>
+    <string name="msg.user.create.error">Не удалось создать пользователя</string>
+    <string name="msg.user.update.error">Не удалось обновить данные пользователя</string>
+</resources>

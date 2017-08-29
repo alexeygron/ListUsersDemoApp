@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main spacings -->
+    <dimen name="spacing_small">5dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_very_big">36dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+
+    <dimen name="user_avatar_size">70dp</dimen>
+    <dimen name="divider_height">0.5dp</dimen>
+    <dimen name="edittext_height">30dp</dimen>
+    <dimen name="cardview_elevation">0.4dp</dimen>
+</resources>
