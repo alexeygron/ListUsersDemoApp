@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.lotr.demo.userlist.R;
+
 public class CommonFragment extends Fragment {
 
     private Toolbar toolbar;
@@ -41,6 +43,14 @@ public class CommonFragment extends Fragment {
             ab.setDisplayHomeAsUpEnabled(true);
             setHasOptionsMenu(true);
         }
+    }
+
+    protected void enableDualPaneMode(boolean state) {
+        getActivity().findViewById(R.id.secondary_container).setVisibility(state ? View.VISIBLE : View.GONE);
+    }
+
+    protected boolean isDualPaneModeEnabled() {
+        return getActivity().getResources().getBoolean(R.bool.dualPaneMode);
     }
 
     protected void setTitle(int titleResId) {

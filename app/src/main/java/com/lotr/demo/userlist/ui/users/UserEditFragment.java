@@ -118,6 +118,12 @@ public class UserEditFragment extends CommonFragment implements IUserEditView {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        enableDualPaneMode(false);
+    }
+
+    @Override
     public void finish() {
         showSoftwareKeyboard(etFirstName.getWindowToken(), false);
         getFragmentManager().popBackStack();

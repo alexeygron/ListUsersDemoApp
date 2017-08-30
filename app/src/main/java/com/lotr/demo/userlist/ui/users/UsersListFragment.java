@@ -80,7 +80,13 @@ public class UsersListFragment extends CommonFragment implements IUsersListView,
         args.putSerializable(UserEditFragment.KEY_MODE, mode);
         args.putParcelable(UserEditFragment.KEY_USER, user);
         frag.setArguments(args);
-        getFragmentManager().beginTransaction().replace(R.id.content_container, frag).addToBackStack(null).commit();
+
+        if (isDualPaneModeEnabled()) {
+            enableDualPaneMode(true);
+            getFragmentManager().beginTransaction().replace(R.id.secondary_container, frag).addToBackStack(null).commit();
+        } else {
+            getFragmentManager().beginTransaction().replace(R.id.primary_container, frag).addToBackStack(null).commit();
+        }
     }
 
     @OnClick(R.id.btnAdd)
