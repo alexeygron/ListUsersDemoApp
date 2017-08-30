@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import com.lotr.demo.userlist.R;
 import com.lotr.demo.userlist.model.User;
-import com.lotr.demo.userlist.ui.CommonFragment;
+import com.lotr.demo.userlist.ui.common.CommonFragment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +27,7 @@ import static com.lotr.demo.userlist.utils.LogUtils.makeLogTag;
 /**
  * Provide update current or create new users
  */
-public class UserEditFragment extends CommonFragment implements IUserEditView{
+public class UserEditFragment extends CommonFragment implements IUserEditView {
 
     @BindView(R.id.etFirstName) EditText etFirstName;
     @BindView(R.id.etLastName) EditText etLastName;
@@ -117,6 +117,12 @@ public class UserEditFragment extends CommonFragment implements IUserEditView{
         return valid;
     }
 
+    @Override
+    public void finish() {
+        showSoftwareKeyboard(etFirstName.getWindowToken(), false);
+        getFragmentManager().popBackStack();
+    }
+
     private boolean validateFirstName() {
         String name = etFirstName.getText().toString();
         if (TextUtils.isEmpty(name)) {
@@ -149,7 +155,7 @@ public class UserEditFragment extends CommonFragment implements IUserEditView{
             ilEmail.setErrorEnabled(true);
             ilEmail.setError(getString(R.string.error_empty_field));
             return false;
-        } if (!matcher.matches()) {
+        } else if (!matcher.matches()) {
             ilEmail.setErrorEnabled(true);
             ilEmail.setError(getString(R.string.error_format));
             return false;

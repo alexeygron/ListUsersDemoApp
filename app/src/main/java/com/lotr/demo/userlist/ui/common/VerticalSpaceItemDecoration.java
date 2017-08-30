@@ -1,4 +1,4 @@
-package com.lotr.demo.userlist.ui;
+package com.lotr.demo.userlist.ui.common;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

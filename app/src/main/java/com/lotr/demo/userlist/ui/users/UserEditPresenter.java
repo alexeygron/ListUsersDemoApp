@@ -3,8 +3,11 @@ package com.lotr.demo.userlist.ui.users;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
@@ -86,19 +89,26 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
     private void onRequestComplete(int responseCode) {
         if (mode == UserEditFragment.Mode.CREATE) {
             if (responseCode == Config.CREATE_USER_COMPLETE_CODE) {
-                showEasyDialog(context, null, R.string.msg_user_create);
+                showEasyDialog(context, R.string.msg_user_create, dialogPositiveClickListener);
             } else {
-                showEasyDialog(context, null, R.string.msg_user_create_error);
+                showEasyDialog(context, R.string.msg_user_create_error, null);
             }
 
         } else if (mode == UserEditFragment.Mode.UPDATE) {
             if (responseCode == Config.UPDATE_USER_COMPLETE_CODE) {
-                showEasyDialog(context, null, R.string.msg_user_update);
+                showEasyDialog(context, R.string.msg_user_update, dialogPositiveClickListener);
             } else {
-                showEasyDialog(context, null, R.string.msg_user_update_error);
+                showEasyDialog(context, R.string.msg_user_update_error, null);
             }
         }
     }
+
+    private DialogInterface.OnClickListener dialogPositiveClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            view.finish();
+        }
+    };
 
     void onDestroy() {
         view = null;
@@ -113,8 +123,13 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
     }
 
     @Override
-    public void onLoadFinished(Loader<Integer> loader, Integer responseCode) {
-        onRequestComplete(responseCode);
+    public void onLoadFinished(Loader<Integer> loader, final Integer responseCode) {
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                onRequestComplete(responseCode);
+            }
+        }.sendEmptyMessage(1);
     }
 
     @Override

@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import com.lotr.demo.userlist.BuildConfig;
 import com.lotr.demo.userlist.R;
 import com.lotr.demo.userlist.model.User;
-import com.lotr.demo.userlist.ui.CommonFragment;
-import com.lotr.demo.userlist.ui.VerticalSpaceItemDecoration;
+import com.lotr.demo.userlist.ui.common.CommonFragment;
+import com.lotr.demo.userlist.ui.common.VerticalSpaceItemDecoration;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;

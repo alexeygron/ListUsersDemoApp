@@ -10,5 +10,7 @@ interface IUserEditView {
 
     boolean validateUserData();
 
+    void finish();
+
     User getUserObject();
 }

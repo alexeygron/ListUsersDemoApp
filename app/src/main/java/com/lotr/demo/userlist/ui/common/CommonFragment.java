@@ -1,7 +1,8 @@
-package com.lotr.demo.userlist.ui;
+package com.lotr.demo.userlist.ui.common;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class CommonFragment extends Fragment {
 
     /**
      * Init toolbar for current child fragment
+     *
      * @param parentView child fragment
      * @param titleResId string res id for title
      */
@@ -46,11 +48,10 @@ public class CommonFragment extends Fragment {
         toolbar.setTitle(titleResId);
     }
 
-    protected void showSoftwareKeyboard(boolean showKeyboard){
+    protected void showSoftwareKeyboard(IBinder binder, boolean showKeyboard) {
         InputMethodManager inputManager =
-                (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(
-                getActivity().getCurrentFocus().getWindowToken(),
+                (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(binder,
                 showKeyboard ? InputMethodManager.SHOW_FORCED : InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
