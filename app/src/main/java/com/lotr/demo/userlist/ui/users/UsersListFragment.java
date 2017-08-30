@@ -120,7 +120,7 @@ public class UsersListFragment extends CommonFragment implements IUsersListView,
     @Override
     public void setData(List<User> data) {
         if (BuildConfig.DEBUG) Log.d(LOG_TAG, "users_count " + data.size());
-        listAdapter.setData(data);
+        listAdapter.setUserList(data);
     }
 
     interface ItemSelectedListener {

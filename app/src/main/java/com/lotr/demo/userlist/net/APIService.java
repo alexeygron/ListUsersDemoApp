@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Description requests for api to retrofit2
@@ -22,6 +23,6 @@ public interface APIService {
     @POST("/users.json")
     Call<ResponseBody> createUser(@Body User user);
 
-    @PATCH("/users/1.json")
-    Call<ResponseBody> updateUser(@Body User user);
+    @PATCH("/users/{id}.json")
+    Call<ResponseBody> updateUser(@Body User user, @Path("id") Integer id);
 }

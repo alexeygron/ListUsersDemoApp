@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.WorkerThread;
+import android.util.Log;
 
+import com.lotr.demo.userlist.BuildConfig;
 import com.lotr.demo.userlist.R;
 import com.lotr.demo.userlist.model.User;
 import com.lotr.demo.userlist.net.APIService;
@@ -34,6 +36,8 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
     private Context context;
     private LoaderManager loaderManager;
 
+    private User user;
+
     private static final int LOADER_ID = 1;
     private static final String LOG_TAG = makeLogTag(UserEditPresenter.class);
 
@@ -43,6 +47,7 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
         this.args = args;
         this.loaderManager = loaderManager;
         this.mode = (UserEditFragment.Mode) args.get(UserEditFragment.KEY_MODE);
+        this.user = this.args.getParcelable(KEY_USER);
         restoreUsertData();
     }
 
@@ -51,7 +56,6 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
      */
     private void restoreUsertData() {
         if (mode == UserEditFragment.Mode.UPDATE) {
-            User user = args.getParcelable(KEY_USER);
             view.restoreUserData(user);
         }
     }
@@ -65,7 +69,17 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
 
         Bundle args = new Bundle();
         args.putSerializable(KEY_MODE, mode);
-        args.putParcelable(KEY_USER, view.getUserObject());
+
+        User userData;
+        if (mode == UserEditFragment.Mode.CREATE) {
+            userData = view.getUserObject();
+        } else {
+            // For update user data need userID, if current action mode is UPDATE, update this
+            userData = view.getUserObject();
+            Integer userId = user.getId();
+            userData.setId(userId);
+        }
+        args.putParcelable(KEY_USER, userData);
         loaderManager.restartLoader(LOADER_ID, args, this);
     }
 
@@ -154,9 +168,9 @@ class UserEditPresenter implements LoaderManager.LoaderCallbacks<Integer> {
             APIService api = retrofit.create(APIService.class);
             int responseCode = 0;
             try {
-                Response response = api.updateUser(user).execute();
+                Response response = api.updateUser(user, user.getId()).execute();
+                if (BuildConfig.DEBUG) Log.d(LOG_TAG, "update_user_response" + response);
                 responseCode = response.code();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
