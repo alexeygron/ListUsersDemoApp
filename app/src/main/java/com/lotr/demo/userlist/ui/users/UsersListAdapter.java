@@ -1,5 +1,6 @@
 package com.lotr.demo.userlist.ui.users;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lotr.demo.userlist.R;
 import com.lotr.demo.userlist.model.User;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,12 @@ import butterknife.ButterKnife;
 
 class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.Holder> {
 
-    private List<User> data = new ArrayList<>();
+    private List<User> userList;
     private UsersListFragment.ItemSelectedListener selectedListener;
+
+    UsersListAdapter() {
+        userList = new ArrayList<>();
+    }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,18 +37,33 @@ class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        User user = data.get(position);
-        holder.bindView(user);
+        Context context = holder.tvName.getContext();
+        User user = userList.get(position);
+
+        String fullName = user.getLastName() + " " + user.getFirstName();
+        holder.tvName.setText(fullName);
+
+        String email = user.getEmail();
+        if (!TextUtils.isEmpty(email)) {
+            holder.tvEmail.setText(email);
+        }
+
+        String avatarUrl = user.getAvatarUrl();
+        if (!TextUtils.isEmpty(avatarUrl)) {
+            Glide.with(context).load(avatarUrl).into(holder.ivAvatar);
+        } else {
+            holder.ivAvatar.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_android));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return userList.size();
     }
 
-    void setData(List<User> data) {
-        this.data.clear();
-        this.data.addAll(data);
+    void setUserList(List<User> userList) {
+        this.userList.clear();
+        this.userList.addAll(userList);
         notifyDataSetChanged();
     }
 
@@ -68,25 +88,8 @@ class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.Holder> {
             int position = getLayoutPosition();
             switch (v.getId()) {
                 case R.id.cvContainer:
-                    selectedListener.onSelected(data.get(position));
+                    selectedListener.onSelected(userList.get(position));
                     break;
-            }
-        }
-
-        void bindView(User user) {
-            String fullName = user.getLastName() + " " + user.getFirstName();
-            tvName.setText(fullName);
-
-            String email = user.getEmail();
-            if (!TextUtils.isEmpty(email)) {
-                tvEmail.setText(email);
-            }
-
-            String avatarUrl = user.getAvatarUrl();
-            if (!TextUtils.isEmpty(avatarUrl)) {
-                Picasso.with(tvName.getContext()).load(avatarUrl).into(ivAvatar);
-            } else {
-                ivAvatar.setBackgroundResource(R.drawable.ic_android);
             }
         }
     }
